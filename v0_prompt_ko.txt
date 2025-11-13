@@ -1,0 +1,94 @@
+Build a production-ready **IT SR intake** web app in **Next.js 14 (App Router) + TypeScript + TailwindCSS + shadcn/ui** with **react-hook-form + zod**.  
+Korean UI. Modern, minimal, enterprise look. Brand accent: **Daiso Red** (approx `#E60012`). Avoid outdated/heavy visuals.
+
+# Goals
+Create a beautiful, accessible “시스템 요청 및 문의 접수” page that posts to our running FastAPI backend.
+
+# Tech & Files
+- Next.js 14 (App Router), TypeScript, Tailwind
+- shadcn/ui (Button, Input, Textarea, Label, RadioGroup, Command/Combobox, Calendar, Card, Accordion, Dialog, Badge, Separator, Tooltip, useToast)
+- react-hook-form + zod validation
+- Font: **Pretendard** (fallback Inter/system)
+- Files:
+  - app/(sr)/sr/new/page.tsx           // main page
+  - components/sr/SRForm.tsx           // the form (self-contained)
+  - lib/api.ts                          // fetch wrapper
+  - lib/constants.ts                    // option lists (회사/시스템/담당자/요청구분)
+  - lib/mappers.ts                      // UI 요청구분 → API category mapping
+  - app/layout.tsx                      // providers; <html lang="ko">
+  - README.md                           // run steps + .env.local example
+
+# Brand & Visual System
+- Color tokens (Tailwind):
+  - primary: **Daiso Red** `#E60012` (600), hover `#C80010`, focus ring with slight transparency
+  - neutral grays: `#111827/#1F2937/#374151/#6B7280/#D1D5DB`
+  - success `#10B981`, danger `#EF4444`
+- Components on soft cards (rounded-2xl, shadow-sm to md), generous spacing (p-6~8)
+- Clear hierarchy: section headers with small **Badge** and subtle **Separator**
+- **Two-column layout (desktop)**: Left = 안내/FAQ/가이드, Right = 카드형 폼. **One-column on mobile**
+- **Sticky submit bar on mobile** with primary button
+- Minimal header: “Daiso IT SR” wordmark, not legacy site look
+
+# Form Fields (Korean labels; ** = required)
+1) **소속회사** (RadioGroup): 아성MP, HS, 아성물류, 아성본부, 랩코, 아성다이소
+2) **소속 부서/팀** (Input text)
+3) **요청자 이름** (Input text)
+4) **제목** (Input text)
+5) **시스템 선택** (Combobox/Select; searchable)
+   - options 예시: MS Teams, HERP-NTMS, HERP-BIZ, HERP-SCM, HS파트너 포털, DMS, 통합HR, 그룹웨어, Mobile-전시회, Mobile-QIS, Mobile-SmartHR, Mobile-DaisoWorks, 기타 시스템
+6) **시스템 담당자** (Combobox/Select; searchable) — 이름 또는 이메일
+7) **요청 구분** (RadioGroup)
+   - 화면 라벨 예시: 장애, 문의, 개선, 계정, 신규, 기타
+8) **요청일자** (Date picker; default 오늘)
+9) 완료일자 (Date picker; optional; 요청일자보다 같거나 이후)
+10) **상세 내용** (Textarea; min length 10)
+11) 첨부 URL (optional; https://로 시작)
+12) 답변 받을 메일 주소 (optional; email)
+
+> 아래는 폼에는 노출하지 않지만 전송 시 값 고정
+- `priority`: "보통"
+
+# Validation (zod)
+- Required: 회사, 부서/팀, 요청자 이름, 제목, 시스템, 담당자, 요청 구분, 요청일자, 상세 내용
+- Email 형식 검사
+- 완료일자 ≥ 요청일자
+- 첨부 URL은 유효한 https URL
+
+# API Integration
+- `.env.local`:
+  - `NEXT_PUBLIC_API_BASE_URL=http://localhost:8000`
+- POST `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/sr/` with body:
+  {
+    "title": string,               // 제목
+    "team": string,                // 소속 부서/팀
+    "assignee": string,            // 담당자(이름 or 이메일)
+    "description": string,         // 상세 내용
+    "category": "장애"|"문의"|"개선"|"계정"|"신규"|"기타",
+    "priority": "보통",
+    "system_name": string,         // 시스템명
+    "request_date": "YYYY-MM-DD",  // 요청일자
+    "requester": string,           // 요청자 이름
+    "summary": string|null,        // 없으면 제목을 그대로 복사해 전송
+    "attachment_url": string|null  // 첨부 URL
+  }
+- 성공 응답: { id, ticket_id, status, notion_page_id }
+  - **성공 Dialog** 표시(체크 아이콘, 티켓번호 크게, 상태 Badge, “새 접수” 버튼)
+- 422/500 에러: 필드 하이라이트 + toast
+
+# Interactions & UX
+- Command/Combobox: 키보드/검색 지원, 선택 후 작은 Badge로 현재 선택 표시
+- 작은 **진행률 바**(대략 필수 필드 채움 비율)
+- LocalStorage 자동 임시저장/복구
+- “요청 구분” 화면 라벨 → API `category` 값은 **mappers.ts**로 변환
+- FAQ/가이드는 좌측 **Accordion**: “장애/문의/개선 차이”, “파일 첨부 방법”, “평균 처리 SLA”
+- 접근성: 각 필드 라벨/aria-* 연결, 포커스 링, Esc로 Dialog 닫기
+
+# Code Quality
+- Strict TS, no any
+- Tailwind classnames readable; avoid noisy decorative gradients
+- Only shadcn/radix components (no extra UI libs)
+- Clear separation: SRForm handles form+submit; page.tsx는 배치/레이아웃만
+- Include a brief **README.md** with `npm i && npm run dev` and `.env.local` example
+
+# Deliver
+Ship a working project tree with the above files and sensible placeholder options in lib/constants.ts. Keep the look **modern, clean, airy** with Daiso Red as the primary action color, not the legacy site style.

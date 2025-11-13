@@ -1,0 +1,45 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:16
+    container_name: sr_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sr
+      POSTGRES_PASSWORD: srpass
+      POSTGRES_DB: srdatabase
+    ports:
+      - '5432:5432'
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  api:
+    build: ./backend
+    container_name: sr_api
+    restart: unless-stopped
+    env_file:
+      - ./backend/.env
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
+
+  sr_frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_BASE_URL: "http://172.16.200.143:8000"
+    image: sr-frontend:latest
+    environment:
+      NODE_ENV: "production"
+      PORT: "3000"
+      NEXT_PUBLIC_API_BASE_URL: "http://172.16.200.143:8000"
+    ports:
+      - "3010:3000"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  pg_data:
