@@ -496,7 +496,7 @@ export function SRForm() {
           {/* Reply Email */}
           <div className="space-y-2">
             <Label htmlFor="replyEmail" className="text-sm font-medium">
-              답변 받을 메일 주소 11111111(선택)
+              답변 받을 메일 주소 (선택)
             </Label>
             <Input id="replyEmail" type="email" placeholder="example@daiso.com" {...form.register("replyEmail")} />
             {form.formState.errors.replyEmail && (

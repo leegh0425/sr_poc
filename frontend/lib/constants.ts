@@ -1,4 +1,4 @@
-export const COMPANIES = ["아성MP", "HS", "랩코", "아성물류", "아성다이소"] as const
+export const COMPANIES = ["아성다이소", "아성HMP", "아성", "아성솔루션", "한웰","HS"] as const
 
 export const SYSTEMS = [
   "MS Teams",
@@ -17,13 +17,13 @@ export const SYSTEMS = [
 
 export const ASSIGNEES = [
   { name: "김인기", system: "HERP-NTMS", email: "ntms@daisoit.co.kr" },
-  { name: "이수정", system: "HERP-BIZ", email: "herp-biz@daisoit.co.kr" },
-  { name: "박민수", system: "HERP-SCM", email: "herp-scm@daisoit.co.kr" },
-  { name: "최지영", system: "DMS", email: "dms@daisoit.co.kr" },
-  { name: "정태호", system: "통합HR", email: "hr@daisoit.co.kr" },
-  { name: "강서윤", system: "그룹웨어", email: "groupware@daisoit.co.kr" },
-  { name: "윤동현", system: "MS Teams", email: "teams@daisoit.co.kr" },
-  { name: "한지민", system: "Mobile Apps", email: "mobile@daisoit.co.kr" },
+  { name: "권민지", system: "HERP-BIZ", email: "herp-biz@daisoit.co.kr" },
+  { name: "하동진", system: "HERP-SCM", email: "herp-scm@daisoit.co.kr" },
+  { name: "박종범", system: "DMS", email: "dms@daisoit.co.kr" },
+  { name: "강호연", system: "통합HR", email: "hr@daisoit.co.kr" },
+  { name: "남채희", system: "그룹웨어", email: "groupware@daisoit.co.kr" },
+  { name: "이광현", system: "MS Teams", email: "teams@daisoit.co.kr" },
+  { name: "김재도", system: "Mobile Apps", email: "mobile@daisoit.co.kr" },
 ] as const
 
 export const REQUEST_TYPES = ["장애", "문의", "신규", "개선", "기타"] as const
