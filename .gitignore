@@ -1,21 +1,28 @@
-# Node / Next
+# deps
+node_modules/
 frontend/node_modules/
-frontend/.next/
-frontend/.turbo/
-frontend/.env*
-frontend/.DS_Store
-
-# Python
 backend/.venv/
-backend/venv/
-backend/__pycache__/
-backend/*.pyc
-backend/.env*
+.venv/
 
-# Docker/Build
-**/dist/
-**/build/
-**/.coverage
+# builds
+.next/
+dist/
+build/
 
-# VSCode
-.vscode/
+# env / secrets
+.env
+.env.*
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# backups & temp
+_backup/
+tmp/
+**/*Zone.Identifier
+
+# OS
+.DS_Store
+Thumbs.db

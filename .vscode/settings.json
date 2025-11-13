@@ -1,0 +1,14 @@
+{
+  "css.lint.unknownAtRules": "ignore",
+  "scss.lint.unknownAtRules": "ignore",
+  "less.lint.unknownAtRules": "ignore",
+
+  // Tailwind 인텔리센스 & 하이라이트 개선
+  "files.associations": { "*.css": "tailwindcss" },
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.classAttributes": ["class", "className"],
+  "tailwindCSS.includeLanguages": {
+    "postcss": "css",
+    "plaintext": "html"
+  }
+}
